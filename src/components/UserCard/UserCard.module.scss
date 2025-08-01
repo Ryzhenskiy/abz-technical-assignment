@@ -12,12 +12,9 @@
     margin-bottom: 20px;
   }
 
-  h3,
-  p {
-    font-size: 0.95rem;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .data {
+    p {
+      margin: 0;
+    }
   }
 }

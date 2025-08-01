@@ -4,19 +4,21 @@ import UserCard from '../UserCard/UserCard';
 import styles from './Users.module.scss';
 import '../../styles/base.scss';
 
-const Users = () => {
+const Users = ({ refreshTrigger }) => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchUsers = async (pageNumber = 1) => {
+  const fetchUsers = async (pageNumber = 1, reset = false) => {
     try {
       const res = await axios.get(
-        `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`
+        `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${pageNumber}&count=6`
       );
-
-      console.log('Fetched users:', res.data.users);
-      setUsers((prev) => [...prev, ...res.data.users]);
+      if (reset) {
+        setUsers(res.data.users);
+      } else {
+        setUsers((prev) => [...prev, ...res.data.users]);
+      }
       setTotalPages(res.data.total_pages);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -27,10 +29,15 @@ const Users = () => {
     fetchUsers(page);
   }, [page]);
 
+  useEffect(() => {
+    setPage(1);
+    fetchUsers(1, true);
+  }, [refreshTrigger]);
+
   return (
     <section className={styles.users}>
       <div className="container">
-        <h2>Working with GET request</h2>
+        <h1>Working with GET request</h1>
 
         <div className={styles.grid}>
           {users.map((user) => (
