@@ -1,7 +1,12 @@
-import styles from './Form.module.scss';
 import { useState, useEffect } from 'react';
+import styles from './Form.module.scss';
 import axios from 'axios';
 import successImage from '../../assets/success-image.svg';
+import Text from '../Text/Text';
+import Heading from '../Heading/Heading';
+import CustomButton from '../CustomButton/CustomButton';
+import { CustomInput } from '../CustomInput/CustomInput';
+import Preloader from '../Preloader/Preloader';
 import '../../styles/base.scss';
 
 const Form = ({ onSuccess }) => {
@@ -14,11 +19,42 @@ const Form = ({ onSuccess }) => {
     photo: null,
   });
 
+  const [loading, setLoading] = useState(false);
   const [allFieldsValid, setAllFieldsValid] = useState(false);
 
   const [userCreated, setUserCreated] = useState(false);
 
   const [token, setToken] = useState('');
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    const nameRegex = /^[a-zA-Z\s]{2,60}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const phoneRegex = /^[\+]{0,1}380([0-9]{9})$/;
+
+    if (!nameRegex.test(formData.name)) {
+      newErrors.name = 'Name should be 2-60 letters long';
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Enter a valid email address';
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = 'Phone should match +380XXXXXXXXX format';
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const fetchPositions = async () => {
     try {
@@ -55,6 +91,9 @@ const Form = ({ onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const isValid = validateForm();
+    if (!isValid) return;
+
     if (
       !formData.name ||
       !formData.email ||
@@ -72,6 +111,8 @@ const Form = ({ onSuccess }) => {
     form.append('phone', formData.phone);
     form.append('position_id', formData.position_id);
     form.append('photo', formData.photo);
+
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -94,6 +135,7 @@ const Form = ({ onSuccess }) => {
         photo: null,
       });
       setUserCreated(true);
+      setLoading(false);
     } catch (error) {
       console.error('Error submitting form:', error.response?.data || error);
     }
@@ -123,45 +165,60 @@ const Form = ({ onSuccess }) => {
     );
   }
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+        }}
+      >
+        <Preloader />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.formWrapper}>
-      <h1 className={styles.sectionTitle}>Working with POST request</h1>
+      <Heading>Working with POST request</Heading>
       <div className={styles.formContainer}>
         <form className={styles.desktopForm} onSubmit={handleSubmit}>
-          <input
+          <CustomInput
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Your name"
-            className={styles.formInput}
+            helperText="Please enter your full name"
+            label={'Name'}
+            error={!!errors.name}
+            errorText={errors.name}
           />
-
-          <input
+          <CustomInput
             type="email"
             id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Email"
-            className={styles.formInput}
+            helperText="Please enter a valid email address"
+            label={'Email'}
+            error={!!errors.email}
+            errorText={errors.email}
           />
 
-          <div className={styles.formGroup}>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              className={styles.formInput}
-            />
-            <label htmlFor="phone" className={styles.phoneLabel}>
-              +38 {'('}XXX{')'} XXX - XX - XX
-            </label>
-          </div>
+          <CustomInput
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            helperText="+38 (XXX) XXX - XX - XX"
+            label={'Your phone'}
+            error={!!errors.phone}
+            errorText={errors.phone}
+          />
 
           <div className={styles.formGroup}>
             <p className={styles.positionLabel}>Select your position</p>
@@ -194,14 +251,14 @@ const Form = ({ onSuccess }) => {
               onChange={handleChange}
               className={styles.hiddenInput}
             />
-            <p className={styles.uploadText}>
+            <Text className={styles.uploadText}>
               {formData.photo ? formData.photo.name : 'Upload your photo'}
-            </p>
+            </Text>
           </div>
 
-          <button type="submit" className="btn" disabled={!allFieldsValid}>
+          <CustomButton type="submit" disabled={!allFieldsValid}>
             Sign up
-          </button>
+          </CustomButton>
         </form>
       </div>
     </div>

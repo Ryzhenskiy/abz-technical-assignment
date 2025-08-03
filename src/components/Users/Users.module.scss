@@ -12,7 +12,26 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
     gap: 20px;
     margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .users {
+    margin: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .users {
+    margin: 20px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .users {
+    margin: 20px;
   }
 }

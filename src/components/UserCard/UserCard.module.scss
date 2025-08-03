@@ -1,8 +1,11 @@
 .card {
+  height: 254px;
+  padding: 16px;
   background: white;
-  padding: 20px;
-  border-radius: 12px;
+  border-radius: 8px;
   text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   img {
     width: 70px;

@@ -9,38 +9,26 @@ body {
   background-color: $background-color;
 }
 
-h1 {
-  font-size: 40px;
-  font-weight: 400;
-  line-height: 40px;
-}
-
-p {
-  font-size: 16px;
-  line-height: 26px;
-  font-weight: 400;
-}
-
-.btn {
-  width: 100px;
-  height: 34px;
-  background: $primary-color;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 80px;
-  cursor: pointer;
-}
-
-.btn:disabled {
-  background-color: #b4b4b4;
-  color: #fff;
-  cursor: not-allowed;
-  opacity: 0.7;
-  border: none;
-}
-
 .container {
   max-width: 1170px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0px 10px;
+}
+
+@media screen and (max-width: 360px) {
+  .container {
+    padding: 0px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    padding: 0px;
+  }
 }

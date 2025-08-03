@@ -10,13 +10,38 @@
     align-items: center;
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-
   .buttons {
     display: flex;
     gap: 10px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .header {
+    .container {
+      align-items: center;
+      padding: 0 10px;
+    }
+  }
+  .buttons {
+    margin-left: 5px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    .container {
+      align-items: center;
+      padding: 0 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .header {
+    .container {
+      align-items: center;
+      padding: 0 10px;
+    }
   }
 }

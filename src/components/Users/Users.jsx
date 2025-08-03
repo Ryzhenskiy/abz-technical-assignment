@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserCard from '../UserCard/UserCard';
 import styles from './Users.module.scss';
+import CustomButton from '../CustomButton/CustomButton';
+import Heading from '../Heading/Heading';
 import '../../styles/base.scss';
 
 const Users = ({ refreshTrigger }) => {
@@ -37,7 +39,7 @@ const Users = ({ refreshTrigger }) => {
   return (
     <section className={styles.users}>
       <div className="container">
-        <h1>Working with GET request</h1>
+        <Heading>Working with GET request</Heading>
 
         <div className={styles.grid}>
           {users.map((user) => (
@@ -46,9 +48,9 @@ const Users = ({ refreshTrigger }) => {
         </div>
 
         {page < totalPages && (
-          <button className="btn" onClick={() => setPage((prev) => prev + 1)}>
+          <CustomButton onClick={() => setPage((prev) => prev + 1)}>
             Show more
-          </button>
+          </CustomButton>
         )}
       </div>
     </section>

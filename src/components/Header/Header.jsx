@@ -1,19 +1,16 @@
 import styles from './Header.module.scss';
-import Logo from '../../assets/Logo'; // Assuming you have a logo component or SVG
+import { Logo } from '../Logo/Logo';
 import '../../styles/base.scss';
+import CustomButton from '../CustomButton/CustomButton';
 
 const Header = () => {
   return (
     <header className={styles.header}>
       <div className={`${styles.container} container`}>
-        <div className={styles.logo}>
-          <Logo />
-          <div>TESTTASK</div>
-        </div>
-
+        <Logo />
         <div className={styles.buttons}>
-          <button className="btn">Users</button>
-          <button className="btn">Sign up</button>
+          <CustomButton>Users</CustomButton>
+          <CustomButton>Sign up</CustomButton>
         </div>
       </div>
     </header>
